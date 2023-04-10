@@ -1,11 +1,16 @@
 package com.KoreaIT.java.jam.servlet;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/article/dodelete")
-public class ArticleDoDeleteServlet extends HttpServlet {
+@WebServlet("/article/modify")
+public class ArticleModifyServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -43,15 +48,20 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 			conn = DriverManager.getConnection(url, user, password);
 
 			response.getWriter().append("Success!!!");
-			int id = Integer.parseInt(request.getParameter("id"));
-			SecSql sql = SecSql.from("DELETE ");
-			sql.append("FROM article");
-			sql.append("WHERE id = ?;", id);
 
-			DBUtil.delete(conn, sql);
-			
-			response.getWriter().append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>", id));
-			
+			int id = Integer.parseInt(request.getParameter("id"));
+
+			SecSql sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("WHERE id = ? ;", id);
+
+			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+
+			response.getWriter().append(articleRow.toString());
+
+			request.setAttribute("articleRow", articleRow);
+			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -66,7 +76,7 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 }

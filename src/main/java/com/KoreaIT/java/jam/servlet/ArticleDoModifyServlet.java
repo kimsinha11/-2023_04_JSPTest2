@@ -1,12 +1,12 @@
 package com.KoreaIT.java.jam.servlet;
 
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/article/dodelete")
-public class ArticleDoDeleteServlet extends HttpServlet {
+@WebServlet("/article/domodify")
+public class ArticleDoModifyServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -42,16 +42,20 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 
-			response.getWriter().append("Success!!!");
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
 			int id = Integer.parseInt(request.getParameter("id"));
-			SecSql sql = SecSql.from("DELETE ");
-			sql.append("FROM article");
+			
+			SecSql sql = SecSql.from("UPDATE article ");
+			sql.append("SET title = ?", title);
+			sql.append(", `body` = ?", body);
 			sql.append("WHERE id = ?;", id);
+			
+			DBUtil.update(conn, sql);
 
-			DBUtil.delete(conn, sql);
-			
-			response.getWriter().append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>", id));
-			
+			response.getWriter()
+					.append(String.format("<script>alert('%d번 글이 수정되었습니다.'); location.replace('detail?id=%d');</script>", id, id));
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -64,8 +68,10 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 			}
 		}
 	}
+
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		doGet(request, response);
 	}
