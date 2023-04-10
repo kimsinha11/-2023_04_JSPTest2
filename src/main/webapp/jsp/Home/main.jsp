@@ -11,7 +11,7 @@
 	<h1 style = "text-align: center;">MAIN</h1>
 	<ul>
 		<li><a href="../article/list">게시물 리스트</a></li>
-	</ul>
+ 		<img src="" alt="" />
 
 
 </body>
