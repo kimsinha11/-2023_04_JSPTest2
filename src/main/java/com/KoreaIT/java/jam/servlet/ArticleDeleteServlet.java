@@ -1,9 +1,11 @@
 package com.KoreaIT.java.jam.servlet;
 
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -41,17 +43,15 @@ public class ArticleDeleteServlet extends HttpServlet {
 			conn = DriverManager.getConnection(url, user, password);
 
 			response.getWriter().append("Success!!!");
-
 			int id = Integer.parseInt(request.getParameter("id"));
-
-			SecSql sql = SecSql.from("DELETE");
+			SecSql sql = SecSql.from("DELETE ");
 			sql.append("FROM article");
-			sql.append("WHERE id = ? ;", id);
+			sql.append("WHERE id = ?;", id);
 
 			DBUtil.delete(conn, sql);
 			
 			response.getWriter().append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>", id));
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
