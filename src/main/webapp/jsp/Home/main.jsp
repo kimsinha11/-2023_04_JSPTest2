@@ -11,8 +11,7 @@
 	<h1 style = "text-align: center;">MAIN</h1>
 	<ul>
 		<li><a href="../article/list">게시물 리스트</a></li>
- 		<img src="" alt="" />
-
+		<img src="https://image.aladin.co.kr/product/8555/38/cover500/g592438753_1.jpg" alt="" />
 
 </body>
 </html>

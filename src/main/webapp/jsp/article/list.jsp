@@ -6,6 +6,18 @@
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
 int cPage = (int) request.getAttribute("page");
 int totalPage = (int) request.getAttribute("totalPage");
+int pageGroup = (int) request.getAttribute("pageGroup");
+int pageCount = (int) request.getAttribute("pageCount");
+int lastNumber = pageGroup * pageCount; // 7
+if (lastNumber > totalPage) {
+  lastNumber = totalPage;
+}
+int firstNumber = lastNumber - (pageCount - 1);
+
+int next = lastNumber + 1;
+int prev = firstNumber - 1; 
+
+
 %>
 <!DOCTYPE html>
 <html>
@@ -74,6 +86,16 @@ int totalPage = (int) request.getAttribute("totalPage");
 		}
 		%>
 	</div>
+	<div class="page">
+	<% 
+	for (int i = firstNumber; i <= lastNumber; i++) { %>
+	
+ 		<button class="pageNumber" id="page_${i}">${i}</button>
+		<%
+		}%>
+	</div>
 
+
+	
 </body>
 </html>
