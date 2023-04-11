@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,7 +54,7 @@ public class MemberDoJoinServlet extends HttpServlet {
 			sql.append("`name` = ?;", name);
 			
 			DBUtil.insert(conn, sql);
-			
+		
 			response.getWriter().append(String.format("<script>alert('회원가입 되었습니다.'); location.replace('../home/main')</script>"));
 			
 		} catch (SQLException e) {
