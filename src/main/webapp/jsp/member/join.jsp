@@ -21,8 +21,6 @@ function jbSubmit() {
 </head>
 <script  type = "text/javascript">
 var JoinForm__submitDone = false;
-
-
 function JoinForm__submit(form) {
 	if(JoinForm__submitDone){
 		alert('처리중 입니다.');

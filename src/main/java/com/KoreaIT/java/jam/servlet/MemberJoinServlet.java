@@ -10,14 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/member/join")
 public class MemberJoinServlet extends HttpServlet {
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/jsp/member/join.jsp").forward(request, response);
-		response.setContentType("text/html;charset=UTF-8");
-	}
-	
+
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("/jsp/member/join.jsp").forward(request, response);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
+
 }
