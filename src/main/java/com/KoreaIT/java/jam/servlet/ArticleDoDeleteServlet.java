@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
@@ -27,9 +28,7 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 
 		// DB 연결
-		String url = "jdbc:mysql://127.0.0.1:3306/JSPAM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-		String user = "root";
-		String password = "";
+	
 		Connection conn = null;
 
 		try {
@@ -41,7 +40,7 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 		}
 
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
 			response.getWriter().append("Success!!!");
 			int id = Integer.parseInt(request.getParameter("id"));

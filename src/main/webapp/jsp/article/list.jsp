@@ -88,7 +88,7 @@ text-decoration: underline;
 
 	<div class="page">
 
-	<a class="first_page" style = "text-decoration: none;" href="list?page=1">[◀]</a>
+	<a class="first_page" style = "text-decoration: none;" href="list?page=1">[◀◀]</a>
 <%	// 페이징  처리
 						if(totalCnt > 0){
 							// 총 페이지의 수
@@ -111,11 +111,11 @@ text-decoration: underline;
 							}
 							
 							for(int i=startPage; i <= endPage; i++){ // 페이지 블록 번호
-								if(i == cPage){ // 현재 페이지에는 링크를 설정하지 않음
+								if(i == cPage){
 					%>
 									<a style = "text-decoration: none;" class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>">[<%=i %>]</a>
 					<%									
-								}else{ // 현재 페이지가 아닌 경우 링크 설정
+								}else{ 
 					%>
 									<a style = "text-decoration: none;" class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>">[<%=i %>]</a>
 					<%	
@@ -130,7 +130,7 @@ text-decoration: underline;
 						}
 					%>
 
-					<a class="first_page" style = "text-decoration: none;" href="list?page=<%=totalPage %>">[▶]</a>
+					<a class="first_page" style = "text-decoration: none;" href="list?page=<%=totalPage %>">[▶▶]</a>
 
 	</div>
 
