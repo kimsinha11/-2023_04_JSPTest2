@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.util.DBUtil;
@@ -43,15 +44,32 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
 			response.getWriter().append("Success!!!");
+
 			int id = Integer.parseInt(request.getParameter("id"));
-			SecSql sql = SecSql.from("DELETE ");
+			
+			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
-			sql.append("WHERE id = ?;", id);
+			sql.append("WHERE id = ? ;", id);
+
+			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+			
+			HttpSession session = request.getSession();
+			
+			int loginedId =  (int) session.getAttribute("loginedMemberId");
+			
+			if(articleRow.get("memberId").equals(loginedId)==false) {
+				response.getWriter().append(String.format("<script>alert('권한이 없습니다..'); location.replace('../article/list');</script>"));
+				return;
+			} 
+			
+			sql = SecSql.from("DELETE");
+			sql.append("FROM article");
+			sql.append("WHERE id = ? ;", id);
 
 			DBUtil.delete(conn, sql);
-			
-			response.getWriter().append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>", id));
-			
+			response.getWriter()
+					.append(String.format("<script>alert('%d번 글이 삭제되었습니다'); location.replace('list');</script>", id));
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

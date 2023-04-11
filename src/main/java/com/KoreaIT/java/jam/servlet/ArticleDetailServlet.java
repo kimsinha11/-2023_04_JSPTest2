@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.util.DBUtil;
@@ -24,7 +25,14 @@ public class ArticleDetailServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
+		
+		HttpSession session = request.getSession();
 
+		int loginedMemberId = -1;
+		
+		if (session.getAttribute("loginedMemberId") != null) {
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		}
 		// DB 연결
 		Connection conn = null;
 
@@ -42,16 +50,20 @@ public class ArticleDetailServlet extends HttpServlet {
 			response.getWriter().append("Success!!!");
 
 			int id = Integer.parseInt(request.getParameter("id"));
-
-			SecSql sql = SecSql.from("SELECT *");
+			
+			SecSql sql = SecSql.from("SELECT article.id, member.name, article.regDate, article.title, article.body");
 			sql.append("FROM article");
-			sql.append("WHERE id = ? ;", id);
+			sql.append("INNER JOIN `member`");
+			sql.append("ON member.id = article.memberId");
+			sql.append("WHERE article.id = ? ;", id);
 
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-
+		
 			response.getWriter().append(articleRow.toString());
-
+	
+			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("articleRow", articleRow);
+			
 			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 
 		} catch (SQLException e) {

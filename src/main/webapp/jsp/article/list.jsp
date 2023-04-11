@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
+
 int cPage = (int) request.getAttribute("page");
 int totalCnt = (int) request.getAttribute("totalCnt");
 int totalPage = (int) request.getAttribute("totalPage");
@@ -14,6 +15,14 @@ if (pageNum == null) { // 클릭한게 없으면 1번 페이지
 	pageNum = "1";
 }
 %>
+
+<%
+
+ boolean isLogined = (boolean) request.getAttribute("isLogined");
+ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+ String loginedMemberLoginId = (String) request.getAttribute("loginedMemberLoginId");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,15 +30,28 @@ if (pageNum == null) { // 클릭한게 없으면 1번 페이지
 <title>게시물 리스트</title>
 </head>
 <body style="text-align: center;">
-
+<%if(isLogined){ %>
+	<div>
+	<%=loginedMemberLoginId %>님 로그인중
+	</div>
 	<h1>게시물 리스트</h1>
 	<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
 		<a style="display: block;" href="../home/main">메인페이지로 이동</a>
 	</div>
 	<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;"class="write">
 		<a style="display: block;" href="write">글쓰기</a>
-
 	</div>
+	<%} 
+	%>
+	
+	<%if(!isLogined){ %>
+	<h1>게시물 리스트</h1>
+	<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+		<a style="display: block;" href="../home/main">메인페이지로 이동</a>
+	</div>
+		<%} 
+	%>
+	
 <br /><br />
 <style type="text/css">
 a {
@@ -46,22 +68,21 @@ text-decoration: underline;
 		border="2px">
 
 		<tr style = "text-decoration: none;">
+
 			<th>번호</th>
+			<th>작성자</th>
 			<th>작성날짜</th>
 			<th>제목</th>
-			<th>수정</th>
-			<th>삭제</th>
-		</tr>
+
 		<%
 		for (Map<String, Object> articleRow : articleRows) {
 		%>
 		<tr class="tr2" style="text-align: center;">
 			<td style = "text-decoration: none;"><%=articleRow.get("id")%></td>
+			<td style = "text-decoration: none;"><%=articleRow.get("name")%></td>
 			<td style = "text-decoration: none; width: 200px;"><%=articleRow.get("regDate")%></td>
 			<td><a style = "text-decoration: none; width: 300px;" href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></td>
-			<td><a style = "text-decoration: none;" href="modify?id=<%=articleRow.get("id")%>">mod</a></td>
-			<td><a style = "text-decoration: none;" href="dodelete?id=<%=articleRow.get("id")%>">del</a></td>
-		</tr>
+
 		<%
 		}
 		%>

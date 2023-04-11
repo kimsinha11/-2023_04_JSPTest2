@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -47,16 +48,23 @@ public class ArticleModifyServlet extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
 
-			response.getWriter().append("Success!!!");
-
+			
+			
 			int id = Integer.parseInt(request.getParameter("id"));
-
+			
 			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
 			sql.append("WHERE id = ? ;", id);
 
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-
+			HttpSession session = request.getSession();
+			int loginedId =  (int) session.getAttribute("loginedMemberId");
+			if(articleRow.get("memberId").equals(loginedId)==false) {
+				response.getWriter().append(String.format("<script>alert('권한이 없습니다..'); location.replace('../article/list');</script>"));
+				return;
+			} 
+			
+	
 			response.getWriter().append(articleRow.toString());
 
 			request.setAttribute("articleRow", articleRow);

@@ -45,6 +45,7 @@ public class ArticleDoModifyServlet extends HttpServlet {
 
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
+	
 			int id = Integer.parseInt(request.getParameter("id"));
 			
 			SecSql sql = SecSql.from("UPDATE article ");

@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.util.DBUtil;
@@ -27,6 +28,21 @@ public class ArticleListServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
+		HttpSession session = request.getSession();
+
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		String loginedMemberLoginId = null;
+		
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+			loginedMemberLoginId = (String) session.getAttribute("loginedMemberLoginId");
+		}
+
+		request.setAttribute("isLogined", isLogined);
+		request.setAttribute("loginedMemberId", loginedMemberId);
+		request.setAttribute("loginedMemberLoginId", loginedMemberLoginId);
 		// DB 연결
 		
 		Connection conn = null;
@@ -58,9 +74,11 @@ public class ArticleListServlet extends HttpServlet {
 			int totalCnt = DBUtil.selectRowIntValue(conn, sql);
 			int totalPage = (int) Math.ceil((double) totalCnt / itemsInAPage);
 
-			sql = SecSql.from("SELECT *");
+			sql = SecSql.from("SELECT article.id, member.name, article.regDate, article.title, article.body");
 			sql.append("FROM article");
-			sql.append("ORDER BY id DESC");
+			sql.append("INNER JOIN `member`");
+			sql.append("ON member.id = article.memberId");
+			sql.append("ORDER BY article.id DESC");
 			sql.append("LIMIT ?, ?;", limitFrom, itemsInAPage);
 
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);

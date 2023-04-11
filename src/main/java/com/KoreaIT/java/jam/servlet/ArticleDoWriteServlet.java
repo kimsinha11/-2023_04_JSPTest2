@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.util.DBUtil;
@@ -43,10 +44,14 @@ public class ArticleDoWriteServlet extends HttpServlet {
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			
+			HttpSession session = request.getSession();
+			int loginedId =  (int) session.getAttribute("loginedMemberId");
+			
 			SecSql sql = SecSql.from("INSERT INTO article ");
 			sql.append("SET title = ?", title);
 			sql.append(", `body` = ?", body);
-			sql.append(", regDate = now();");
+			sql.append(", regDate = now()");
+			sql.append(", memberId = ?",loginedId);
 			
 			int id = DBUtil.insert(conn, sql);
 			

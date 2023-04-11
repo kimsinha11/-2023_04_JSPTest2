@@ -23,14 +23,9 @@
 	<h1 style="text-align: center;">MAIN</h1>
 	
 
-	<ul
-		style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
-		<li><a style="display: block;" href="../member/join">회원가입</a></li>
-	</ul>
-	
 	<%if(isLogined){ %>
 	<div>
-	<%=loginedMemberLoginId %> 로그인중
+	<%=loginedMemberLoginId %>님 로그인중
 	</div>
 	<ul
 		style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
@@ -40,6 +35,11 @@
 	%>
 	
 	<%if(!isLogined){ %>
+	<ul
+		style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+		<li><a style="display: block;" href="../member/join">회원가입</a></li>
+	</ul>
+	
 	<ul
 		style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
 		<li><a style="display: block;" href="../member/login">로그인</a></li>

@@ -4,6 +4,10 @@
 	pageEncoding="UTF-8"%>
 <%
 Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("articleRow");
+
+int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+
+int memberId = Integer.parseInt(articleRow.get("memberId").toString());
 %>
 <!DOCTYPE html>
 <html>
@@ -20,6 +24,10 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<%=articleRow.get("id")%>
 	</div>
 	<div>
+	작성자 : 
+	<%=articleRow.get("name")%>
+	</div>
+	<div>
 	작성날짜 : 
 	<%=articleRow.get("regDate") %>
 	</div>
@@ -30,10 +38,12 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<div>
 	내용 : 
 	<%=articleRow.get("body") %>
+	</div>
+	<%if(loginedMemberId==memberId){ %>
 	<div><a href= "modify?id=<%=articleRow.get("id")%>">수정</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href= "dodelete?id=<%=articleRow.get("id")%>">삭제</a></div>
-	</div>
-	
+		<%} 
+	%>
 	<div>
 		<a style="color: green" href="list">리스트로 돌아가기</a>
 	</div>

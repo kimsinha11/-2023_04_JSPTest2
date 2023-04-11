@@ -70,6 +70,8 @@ function JoinForm__submit(form) {
 
 <body>
 	<div><a style="color:green" href="../home/main">메인으로 돌아가기</a></div>
+	
+
 	<h1 style="border: 2px solid black; text-align:center;">회원가입</h1>
 	
 	<form style="border: 2px solid black; text-align:center;" method="post" action="doJoin" onsubmit="JoinForm__submit(this); return false;">
@@ -91,5 +93,7 @@ function JoinForm__submit(form) {
 		<br />
 		<button style="text-align:center;" type="submit" onclick="if(confirm('회원가입하시겠습니까?')==false) return false;">회원가입</button>
 	</form>
+
+	
 </body>
 </html>
