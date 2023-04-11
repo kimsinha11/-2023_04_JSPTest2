@@ -20,7 +20,16 @@ function jbSubmit() {
 
 </head>
 <script  type = "text/javascript">
+var JoinForm__submitDone = false;
+
+
 function JoinForm__submit(form) {
+	if(JoinForm__submitDone){
+		alert('처리중 입니다.');
+		return;
+	}
+	
+	
 	var loginId = form.loginId.value.trim();
 	var loginPw = form.loginPw.value.trim();
 	var loginPwConfirm = form.loginPwConfirm.value.trim();
@@ -45,7 +54,7 @@ function JoinForm__submit(form) {
 		return;
 	}
 	if(loginPw != loginPwConfirm) {
-		alert('비밀번호가 일치하지 않습니다.');
+		alert('비밀번호가 일치하지 않습니다');
 		form.loginPw.focus();
 		return;
 	}
@@ -55,6 +64,8 @@ function JoinForm__submit(form) {
 		form.name.focus();
 		return;
 	}
+	
+	JoinForm__submitDone = true;
 	form.submit();
 }
 </script>
@@ -80,7 +91,7 @@ function JoinForm__submit(form) {
 			이름 : <input type="text" placeholder="name" name="name"/>
 		</div>
 		<br />
-		<button style="text-align:center;" type="submit" onclick="if(confirm('회원가입하시겠습니가?')==false) return false;">회원가입</button>
+		<button style="text-align:center;" type="submit" onclick="if(confirm('회원가입하시겠습니까?')==false) return false;">회원가입</button>
 	</form>
 </body>
 </html>
