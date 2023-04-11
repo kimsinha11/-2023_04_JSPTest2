@@ -1,5 +1,6 @@
 package com.KoreaIT.java.jam.servlet;
 
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -43,25 +44,21 @@ public class ArticleListServlet extends HttpServlet {
 			conn = DriverManager.getConnection(url, user, password);
 
 			int page = 1;
-			int pageCount = 7;
-			
-			
+
 			if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {
 				page = Integer.parseInt(request.getParameter("page"));
 			}
 
 			int itemsInAPage = 10;
+
 			int limitFrom = (page - 1) * itemsInAPage;
-			
-			
+
 			SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
 			sql.append("FROM article");
 
 			int totalCnt = DBUtil.selectRowIntValue(conn, sql);
 			int totalPage = (int) Math.ceil((double) totalCnt / itemsInAPage);
-			int pageGroup = (int) Math.ceil( page / pageCount); // 1
-			
-			
+
 			sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
 			sql.append("ORDER BY id DESC");
@@ -72,10 +69,10 @@ public class ArticleListServlet extends HttpServlet {
 			response.getWriter().append(articleRows.toString());
 
 			request.setAttribute("page", page);
+			request.setAttribute("totalCnt", totalCnt);
 			request.setAttribute("totalPage", totalPage);
-			request.setAttribute("pageGroup", pageGroup);
-			request.setAttribute("pageCount", pageCount);
 			request.setAttribute("articleRows", articleRows);
+
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 
 		} catch (SQLException e) {
