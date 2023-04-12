@@ -2,9 +2,11 @@ package com.KoreaIT.java.jam.service;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import com.KoreaIT.java.jam.dao.ArticleDao;
 import com.KoreaIT.java.jam.dto.Article;
+import com.KoreaIT.java.jam.util.SecSql;
 
 public class ArticleService {
 	private Connection conn;
@@ -34,6 +36,18 @@ public class ArticleService {
 
 		List<Article> articles = articleDao.getArticles(limitFrom, itemsInAPage);
 
+		return articles;
+	}
+
+	public List<Article> getForSelectArticle(int id) {
+		
+		List<Article> articles = articleDao.getArticles(id);
+		return articles;
+	}
+
+	public List<Article> getForModifyArticle(int id) {
+
+		List<Article> articles = articleDao.getForModifyArticle(id);
 		return articles;
 	}
 

@@ -55,22 +55,14 @@ public class ArticleController {
 	public void showDetail() throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-
-
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		
-		SecSql sql = SecSql.from("SELECT article.id, article.memberId, member.name, article.regDate, article.title, article.body");
-		sql.append("FROM article");
-		sql.append("INNER JOIN `member`");
-		sql.append("ON member.id = article.memberId");
-		sql.append("WHERE article.id = ? ;", id);
-
-		Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+		List<Article> articles = articleService.getForSelectArticle(id);
 	
-		response.getWriter().append(articleRow.toString());
+		response.getWriter().append(articles.toString());
 	
-		request.setAttribute("articleRow", articleRow);
+		request.setAttribute("articles", articles);
 		
 		request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 
@@ -87,22 +79,18 @@ public class ArticleController {
 		HttpSession session = request.getSession();
 		int id = Integer.parseInt(request.getParameter("id"));
 		
-		SecSql sql = SecSql.from("SELECT *");
-		sql.append("FROM article");
-		sql.append("WHERE id = ? ;", id);
-
-		Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-
-		int loginedId =  (int) session.getAttribute("loginedMemberId");
-		if(articleRow.get("memberId").equals(loginedId)==false) {
-			response.getWriter().append(String.format("<script>alert('권한이 없습니다..'); location.replace('../article/list');</script>"));
-			return;
-		} 
 		
 
-		response.getWriter().append(articleRow.toString());
+		List<Article> articles = articleService.getForModifyArticle(id);
+		
 
-		request.setAttribute("articleRow", articleRow);
+		int loginedId =  (int) session.getAttribute("loginedMemberId");
+		
+		
+
+		response.getWriter().append(articles.toString());
+
+		request.setAttribute("articles", articles);
 		request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 		
 	}

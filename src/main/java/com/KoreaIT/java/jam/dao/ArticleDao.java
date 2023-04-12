@@ -41,4 +41,35 @@ public class ArticleDao {
 		return articles;
 	}
 
+	public List<Article> getArticles(int id) {
+		SecSql sql = SecSql.from("SELECT article.id, article.memberId, member.name, article.regDate, article.title, article.body");
+		sql.append("FROM article");
+		sql.append("INNER JOIN `member`");
+		sql.append("ON member.id = article.memberId");
+		sql.append("WHERE article.id = ? ;", id);
+
+		List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
+		
+		List<Article> articles = new ArrayList<>();
+		for(Map<String, Object> articleRow : articleRows) {
+			articles.add(new Article(articleRow));
+		}
+		
+		return articles;
+	}
+
+	public List<Article> getForModifyArticle(int id) {
+		SecSql sql = SecSql.from("SELECT *");
+		sql.append("FROM article");
+		sql.append("WHERE id = ? ;", id);
+		
+		List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
+		
+		List<Article> articles = new ArrayList<>();
+		for(Map<String, Object> articleRow : articleRows) {
+			articles.add(new Article(articleRow));
+		}
+		return articles;
+	}
+
 }

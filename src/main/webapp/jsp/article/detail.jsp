@@ -2,11 +2,10 @@
 <%@ page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.KoreaIT.java.jam.dto.Article"%>
 <%
-
-Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("articleRow");
+List<Article> articles = (List<Article>) request.getAttribute("articles");
 %>
-
 <%
 
  boolean isLogined = (boolean) request.getAttribute("isLogined");
@@ -24,27 +23,33 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	
 
 	<h1>게시물 상세보기</h1>
+<%
+		for (Article article : articles) {
+		%>	
 	<div>
 	번호 : 
-	<%=articleRow.get("id")%>
+	<%=article.id%>
 	</div>
 	<div>
 	작성날짜 : 
-	<%=articleRow.get("regDate") %>
+	<%=article.regDate %>
 	</div>
 	<div>
 	제목 :
-	<%=articleRow.get("title") %>
+	<%=article.title %>
 	</div>
 	<div>
 	내용 : 
-	<%=articleRow.get("body") %>
+	<%=article.body %>
 
-	<div><a href= "modify?id=<%=articleRow.get("id")%>">수정</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href= "dodelete?id=<%=articleRow.get("id")%>">삭제</a></div>
+	<div><a href= "modify?id=<%=article.id%>">수정</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href= "dodelete?id=<%=article.id%>">삭제</a></div>
 
 	</div>
 	
+		<%
+		}
+		%>
 	<div>
 		<a style="color: green" href="list">리스트로 돌아가기</a>
 	</div>
