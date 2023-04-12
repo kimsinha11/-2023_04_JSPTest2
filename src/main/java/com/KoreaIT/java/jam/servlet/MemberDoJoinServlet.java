@@ -16,7 +16,7 @@ import com.KoreaIT.java.jam.exception.SQLErrorException;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/member/doJoin")
+@WebServlet("/s/member/doJoin")
 public class MemberDoJoinServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

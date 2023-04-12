@@ -21,11 +21,7 @@ public class MemberJoinServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 
-		if (session.getAttribute("loginedMemberId") != null) {
-			response.getWriter().append(
-					String.format("<script>alert('로그아웃 후 이용해주세요'); location.replace('../home/main');</script>"));
-			return;
-		}
+		
 		request.getRequestDispatcher("/jsp/member/join.jsp").forward(request, response);
 	}
 

@@ -94,6 +94,11 @@ public class DispatcherServlet extends HttpServlet {
 						MemberController memberController = new MemberController(request, response, conn);
 						
 						if(actionMethodName.equals("join")) {
+							if (session.getAttribute("loginedMemberId") != null) {
+								response.getWriter().append(
+										String.format("<script>alert('로그아웃 후 이용해주세요'); location.replace('../home/main');</script>"));
+								return;
+							}
 							memberController.doJoin();
 						} else if(actionMethodName.equals("login")) {
 							memberController.doLogin();
