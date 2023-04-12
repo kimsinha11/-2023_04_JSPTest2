@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.KoreaIT.java.jam.dto.Article;
 import com.KoreaIT.java.jam.service.ArticleService;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
@@ -40,12 +41,12 @@ public class ArticleController {
 		int totalPage = articleService.getTotalPage();
 
 
-		List<Map<String, Object>> articleRows =articleService.getForPrintArticleRows(page);
+		List<Article> articles =articleService.getForPrintArticles(page);
 
 		request.setAttribute("page", page);
 
 		request.setAttribute("totalPage", totalPage);
-		request.setAttribute("articleRows", articleRows);
+		request.setAttribute("articles", articles);
 
 		request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 		

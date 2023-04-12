@@ -1,9 +1,10 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="com.KoreaIT.java.jam.dto.Article"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
+List<Article> articles = (List<Article>) request.getAttribute("articles");
 
 
 int cPage = (int) request.getAttribute("page");
@@ -76,13 +77,13 @@ text-decoration: underline;
 			<th>작성날짜</th>
 
 		<%
-		for (Map<String, Object> articleRow : articleRows) {
+		for (Article article : articles) {
 		%>
 		<tr class="tr2" style="text-align: center;">
-			<td style = "text-decoration: none; width: 150px;"><%=articleRow.get("id")%></td>
-			<td style = "text-decoration: none; width: 150px;"><%=articleRow.get("name")%></td>
-			<td><a style = "text-decoration: none; width: 300px;" href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></td>
-			<td style = "text-decoration: none; width: 300px;"><%=articleRow.get("regDate")%></td>
+			<td style = "text-decoration: none; width: 150px;"><%=article.id%></td>
+			<td style = "text-decoration: none; width: 150px;"><%=article.extra__writer%></td>
+			<td><a style = "text-decoration: none; width: 300px;" href="detail?id=<%=article.id%>"><%=article.title%></a></td>
+			<td style = "text-decoration: none; width: 300px;"><%=article.regDate%></td>
 
 		<%
 		}
