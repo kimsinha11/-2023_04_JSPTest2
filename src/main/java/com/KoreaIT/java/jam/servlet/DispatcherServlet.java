@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.controller.ArticleController;
-import com.KoreaIT.java.jam.util.DBUtil;
-import com.KoreaIT.java.jam.util.SecSql;
+import com.KoreaIT.java.jam.controller.MemberController;
 
 @WebServlet("/s/*")
 public class DispatcherServlet extends HttpServlet {
@@ -65,8 +63,11 @@ public class DispatcherServlet extends HttpServlet {
 						isLogined = true;
 						loginedMemberId = (int) session.getAttribute("loginedMemberId");
 						loginedMemberLoginId = (String) session.getAttribute("loginedMemberLoginId");
+						response.getWriter().append(
+								String.format("<script>alert('로그아웃 후 이용해주세요'); location.replace('../home/main');</script>"));
+						return;
 					}
-
+					
 					request.setAttribute("isLogined", isLogined);
 					request.setAttribute("loginedMemberId", loginedMemberId);
 					request.setAttribute("loginedMemberLoginId", loginedMemberLoginId);
@@ -85,7 +86,11 @@ public class DispatcherServlet extends HttpServlet {
 							articleController.doModify();
 						}
 					} else if(controllerName.equals("member")) {
+						MemberController memberController = new MemberController(request, response, conn);
 						
+						if(actionMethodName.equals("join")) {
+							memberController.doJoin();
+						}
 					}
 					
 					
