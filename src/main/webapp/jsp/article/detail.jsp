@@ -3,11 +3,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+
 Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("articleRow");
+%>
 
-int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+<%
 
-int memberId = Integer.parseInt(articleRow.get("memberId").toString());
+ boolean isLogined = (boolean) request.getAttribute("isLogined");
+ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+ String loginedMemberLoginId = (String) request.getAttribute("loginedMemberLoginId");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -24,10 +29,6 @@ int memberId = Integer.parseInt(articleRow.get("memberId").toString());
 	<%=articleRow.get("id")%>
 	</div>
 	<div>
-	작성자 : 
-	<%=articleRow.get("name")%>
-	</div>
-	<div>
 	작성날짜 : 
 	<%=articleRow.get("regDate") %>
 	</div>
@@ -38,12 +39,12 @@ int memberId = Integer.parseInt(articleRow.get("memberId").toString());
 	<div>
 	내용 : 
 	<%=articleRow.get("body") %>
-	</div>
-	<%if(loginedMemberId==memberId){ %>
+	<%if(loginedMemberId==Integer.parseInt(articleRow.get("memberId").toString())){ %>
 	<div><a href= "modify?id=<%=articleRow.get("id")%>">수정</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href= "dodelete?id=<%=articleRow.get("id")%>">삭제</a></div>
-		<%} 
+	<a href= "dodelete?id=<%=articleRow.get("id")%>">삭제</a></div><%} 
 	%>
+	</div>
+	
 	<div>
 		<a style="color: green" href="list">리스트로 돌아가기</a>
 	</div>

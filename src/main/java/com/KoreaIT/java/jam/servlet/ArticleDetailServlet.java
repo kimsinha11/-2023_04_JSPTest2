@@ -28,11 +28,19 @@ public class ArticleDetailServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 
+		boolean isLogined = false;
 		int loginedMemberId = -1;
+		String loginedMemberLoginId = null;
 		
 		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+			loginedMemberLoginId = (String) session.getAttribute("loginedMemberLoginId");
 		}
+
+		request.setAttribute("isLogined", isLogined);
+		request.setAttribute("loginedMemberId", loginedMemberId);
+		request.setAttribute("loginedMemberLoginId", loginedMemberLoginId);
 		// DB 연결
 		Connection conn = null;
 
@@ -51,7 +59,7 @@ public class ArticleDetailServlet extends HttpServlet {
 
 			int id = Integer.parseInt(request.getParameter("id"));
 			
-			SecSql sql = SecSql.from("SELECT article.id, member.name, article.regDate, article.title, article.body");
+			SecSql sql = SecSql.from("SELECT article.id, article.memberId, member.name, article.regDate, article.title, article.body");
 			sql.append("FROM article");
 			sql.append("INNER JOIN `member`");
 			sql.append("ON member.id = article.memberId");
@@ -60,7 +68,8 @@ public class ArticleDetailServlet extends HttpServlet {
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 		
 			response.getWriter().append(articleRow.toString());
-	
+			
+			
 			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("articleRow", articleRow);
 			

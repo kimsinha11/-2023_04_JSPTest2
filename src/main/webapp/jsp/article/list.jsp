@@ -35,6 +35,7 @@ if (pageNum == null) { // 클릭한게 없으면 1번 페이지
 	<%=loginedMemberLoginId %>님 로그인중
 	</div>
 	<h1>게시물 리스트</h1>
+	
 	<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
 		<a style="display: block;" href="../home/main">메인페이지로 이동</a>
 	</div>
