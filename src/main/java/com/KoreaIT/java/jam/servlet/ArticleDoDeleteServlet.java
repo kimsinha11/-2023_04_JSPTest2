@@ -27,7 +27,13 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
+		HttpSession session = request.getSession();
 
+		if (session.getAttribute("loginedMemberId") == null) {
+			response.getWriter().append(
+					String.format("<script>alert('로그인 후 이용해주세요'); location.replace('../member/login');</script>"));
+			return;
+		}
 		// DB 연결
 	
 		Connection conn = null;
@@ -53,7 +59,6 @@ public class ArticleDoDeleteServlet extends HttpServlet {
 
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 			
-			HttpSession session = request.getSession();
 			
 			int loginedId =  (int) session.getAttribute("loginedMemberId");
 			

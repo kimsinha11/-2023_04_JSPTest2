@@ -15,8 +15,17 @@ public class MemberJoinServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	
+
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("loginedMemberId") != null) {
+			response.getWriter().append(
+					String.format("<script>alert('로그아웃 후 이용해주세요'); location.replace('../home/main');</script>"));
+			return;
+		}
 		request.getRequestDispatcher("/jsp/member/join.jsp").forward(request, response);
 	}
 

@@ -72,17 +72,17 @@ text-decoration: underline;
 
 			<th>번호</th>
 			<th>작성자</th>
-			<th>작성날짜</th>
 			<th>제목</th>
+			<th>작성날짜</th>
 
 		<%
 		for (Map<String, Object> articleRow : articleRows) {
 		%>
 		<tr class="tr2" style="text-align: center;">
-			<td style = "text-decoration: none;"><%=articleRow.get("id")%></td>
-			<td style = "text-decoration: none;"><%=articleRow.get("name")%></td>
-			<td style = "text-decoration: none; width: 200px;"><%=articleRow.get("regDate")%></td>
+			<td style = "text-decoration: none; width: 150px;"><%=articleRow.get("id")%></td>
+			<td style = "text-decoration: none; width: 150px;"><%=articleRow.get("name")%></td>
 			<td><a style = "text-decoration: none; width: 300px;" href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></td>
+			<td style = "text-decoration: none; width: 300px;"><%=articleRow.get("regDate")%></td>
 
 		<%
 		}
