@@ -34,4 +34,10 @@ public class MemberController {
 		request.getRequestDispatcher("/jsp/member/join.jsp").forward(request, response);
 		
 	}
+
+
+	public void doLogin() throws ServletException, IOException {
+		request.getRequestDispatcher("/jsp/member/login.jsp").forward(request, response);
+		
+	}
 }

@@ -63,10 +63,10 @@ public class DispatcherServlet extends HttpServlet {
 						isLogined = true;
 						loginedMemberId = (int) session.getAttribute("loginedMemberId");
 						loginedMemberLoginId = (String) session.getAttribute("loginedMemberLoginId");
-						response.getWriter().append(
-								String.format("<script>alert('로그아웃 후 이용해주세요'); location.replace('../home/main');</script>"));
-						return;
+						
 					}
+				
+
 					
 					request.setAttribute("isLogined", isLogined);
 					request.setAttribute("loginedMemberId", loginedMemberId);
@@ -83,6 +83,11 @@ public class DispatcherServlet extends HttpServlet {
 						} else if(actionMethodName.equals("write")) {
 							articleController.doWrite();
 						} else if(actionMethodName.equals("modify")) {
+							if (session.getAttribute("loginedMemberId") == null) {
+								response.getWriter().append(
+										String.format("<script>alert('로그인 후 이용해주세요'); location.replace('../member/login');</script>"));
+								return;
+							}
 							articleController.doModify();
 						}
 					} else if(controllerName.equals("member")) {
@@ -90,7 +95,9 @@ public class DispatcherServlet extends HttpServlet {
 						
 						if(actionMethodName.equals("join")) {
 							memberController.doJoin();
-						}
+						} else if(actionMethodName.equals("login")) {
+							memberController.doLogin();
+						} 
 					}
 					
 					
