@@ -5,10 +5,10 @@
 <%
 List<Map<String, Object>> articleRows = (List<Map<String, Object>>) request.getAttribute("articleRows");
 
+
 int cPage = (int) request.getAttribute("page");
-int totalCnt = (int) request.getAttribute("totalCnt");
 int totalPage = (int) request.getAttribute("totalPage");
-int pageSize = 10; // 한 페이지에 출력할 레코드 수
+
 // 페이지 링크를 클릭한 번호 / 현재 페이지
 String pageNum = request.getParameter("pageNum");
 if (pageNum == null) { // 클릭한게 없으면 1번 페이지
@@ -110,49 +110,35 @@ text-decoration: underline;
 
 	<div class="page">
 
-	<a class="first_page" style = "text-decoration: none;" href="list?page=1">[◀◀]</a>
-<%	// 페이징  처리
-						if(totalCnt > 0){
-							// 총 페이지의 수
-							int pageCount = totalCnt / pageSize + (totalCnt%pageSize == 0 ? 0 : 1);
-							// 한 페이지에 보여줄 페이지 블럭(링크) 수
-							int pageBlock = 10;
-							// 한 페이지에 보여줄 시작 및 끝 번호(예 : 1, 2, 3 ~ 10 / 11, 12, 13 ~ 20)
-							int startPage = ((cPage-1)/pageBlock)*pageBlock+1;
-							int endPage = startPage + pageBlock - 1;
-							
-							// 마지막 페이지가 총 페이지 수 보다 크면 endPage를 pageCount로 할당
-							if(endPage > pageCount){
-								endPage = pageCount;
-							}
-							
-							if(startPage > pageBlock){ // 페이지 블록수보다 startPage가 클경우 이전 링크 생성
-					%>
-								<a style = "text-decoration: none;" href="list?page=<%=startPage - 10%>">[이전]</a>	
-					<%			
-							}
-							
-							for(int i=startPage; i <= endPage; i++){ // 페이지 블록 번호
-								if(i == cPage){
-					%>
-									<a style = "text-decoration: none;" class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>">[<%=i %>]</a>
-					<%									
-								}else{ 
-					%>
-									<a style = "text-decoration: none;" class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>">[<%=i %>]</a>
-					<%	
-								}
-							} // for end
-							
-							if(endPage < pageCount){ // 현재 블록의 마지막 페이지보다 페이지 전체 블록수가 클경우 다음 링크 생성
-					%>
-								<a style = "text-decoration: none;" href="list?page=<%=startPage + 10 %>">[다음]</a>
-					<%			
-							}
-						}
-					%>
+	<%
+		if (cPage > 1) {
+		%>
+		<a href="list?page=1">◀◀</a>
+		<%
+		}
+		int pageSize = 5;
+		int from = cPage - pageSize;
+		if (from < 1) {
+		from = 1;
+		}
+		int end = cPage + pageSize;
+		if (end > totalPage) {
+		end = totalPage;
+		}
+		for (int i = from; i <= end; i++) {
+		%>
+		<a class="<%=cPage == i ? "red" : ""%>" href="list?page=<%=i%>"><%=i%></a>
+		<%
+		}
+		%>
 
-					<a class="first_page" style = "text-decoration: none;" href="list?page=<%=totalPage %>">[▶▶]</a>
+		<%
+		if (cPage < totalPage) {
+		%>
+		<a href="list?page=<%=totalPage%>">▶▶</a>
+		<%
+		}
+		%>
 
 	</div>
 

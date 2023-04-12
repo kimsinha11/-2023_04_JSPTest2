@@ -39,10 +39,10 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<div>
 	내용 : 
 	<%=articleRow.get("body") %>
-	<%if(loginedMemberId==Integer.parseInt(articleRow.get("memberId").toString())){ %>
+
 	<div><a href= "modify?id=<%=articleRow.get("id")%>">수정</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<a href= "dodelete?id=<%=articleRow.get("id")%>">삭제</a></div><%} 
-	%>
+	<a href= "dodelete?id=<%=articleRow.get("id")%>">삭제</a></div>
+
 	</div>
 	
 	<div>

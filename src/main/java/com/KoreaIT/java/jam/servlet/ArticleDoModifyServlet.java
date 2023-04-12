@@ -18,7 +18,7 @@ import com.KoreaIT.java.jam.config.Config;
 import com.KoreaIT.java.jam.util.DBUtil;
 import com.KoreaIT.java.jam.util.SecSql;
 
-@WebServlet("/article/domodify")
+@WebServlet("/s/article/domodify")
 
 public class ArticleDoModifyServlet extends HttpServlet {
 	@Override
